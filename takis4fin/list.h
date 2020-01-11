@@ -6,6 +6,7 @@ typedef struct listnode listnode;
 struct listnode{
   int x;
   char name[100];
+  listnode* neighboor;
   listnode* next;
 };
 
