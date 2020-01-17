@@ -1,10 +1,10 @@
-#include"classes.h"
+#include"classes.hpp"
 #include<iostream>
 #include <string>
+using namespace std;
 /*Η process ανήκει στο Αεροπλάνο και επιτρέπει σε έναν εργαζόμενο (
 από εκφώνηση: της παρέχεται) να εργαστεί σε καθεμιά από τις Συνιστώσες του.
  Η process ανήκει και σε μια Συνιστώσα με την προφανή λειτουργία.
-
 Η workOn ανήκει5 στους εργαζομένους και επιτρέπει σε έναν Εργαζόμενο να εργαστεί
  σε μια Συνιστώσα (επομένως παίρνει μια Συνιστώσα ως όρισμα).
 
@@ -12,73 +12,68 @@
  εργασίας που επιτέλεσε ο εκάστοτε εργαζόμενος (δηλ. σε ποιόν χώρο δούλεψε κτλ.).
  Έχετε σχετική ελευθερία στο τί θα εκτυπώνει η report.
 */
+int count=0;
 
-
-Object::Object(int idd,string desc){
-  cout<<"<Object> just created!"<<endl;
-  id=idd;
-  description=desc;
-};
-
-Plane::Plane(int pas,int idd,string desc):Object(idd,desc){
-  int i;
-  cout<<"<Plane> just created!"<<endl;
-   passenger_num=pas;
-   array=new PlaneComponent *[3];//random number of plane compontents
-   for(i=0;i<10;i++){
-     array[i]=new PlaneComponent("test",5,"lama");
-   }
-};
-
-int Plane::getPassengerNum(){
-  return passenger_num;
-}
-
-Employee::Employee(string nam,string repor,int idd,string desc):Object(idd,desc){
-    cout<<"<Employee> just created!"<<endl;
-    name=nam;
-    report=repor;
-  }
-
-string Employee::getName(){
-  return name;
-}
-
-string Employee::getReport(){
-  return report;
-}
-
-PlaneComponent::PlaneComponent(string descrip,int idd,string desc):Object(idd,desc){
-  cout<<"<PlaneComponent> just created!"<<endl;
-  //description=descrip;
-
+Object::Object(){
+//  cout<<"<Object> Constructor called"<<endl;
+  id=count++;
 
 }
 
-string PlaneComponent::getDescription(){
-  return description;
-}
-PassengerCompartment::PassengerCompartment(string desc1,string desc2,int idd,string desc3):PlaneComponent(desc2,idd,desc3){
-  cout<<"PassengerCompartment just created!"<<endl;
-  description=desc1;
-}
-void PassengerCompartment::ready_check(){
-  cout<<description<<endl;
-  cout<<"PassengerCompartment OK!"<<endl;
+Plane::Plane():Object(){
+  description="NIce plane";
+  capacity=420;
+  cout<<"<Plane> Constructor called"<<endl;
 }
 
-void PrivateCompartment::ready_check(){
 
-  cout<<description<<endl;
-  cout<<"PrivateCompartment OK!"<<endl;
+PlaneComponent::PlaneComponent():Plane(){
+  cout<<"<PlaneComponent> Constructor called"<<endl;
+
 }
 
-void EquipmentCompartment::ready_check(){
-  cout<<description<<endl;
-  cout<<"EquipmentCompartment OK!"<<endl;
+PassengerCompartment::PassengerCompartment():PlaneComponent(){
+  cout<<"<PassengerCompartment> Constructor called"<<endl;
 }
 
-void CargoBay::ready_check(){
-  cout<<description<<endl;
-  cout<<"CargoBay OK!"<<endl;
+PrivateCompartment::PrivateCompartment():PlaneComponent(){
+  cout<<"<PrivateCompartment> Constructor called"<<endl;
+}
+
+CargoBay::CargoBay():PrivateCompartment(){
+  cout<<"<CargoBay> Constructor called"<<endl;
+}
+
+EquipmentCompartment::EquipmentCompartment():PrivateCompartment(){
+  cout<<"<EquipmentCompartment> Constructor called"<<endl;
+}
+
+
+Employee::Employee():Object(){
+  name="empty";
+  cout<<"<Employee> Constructor called"<<endl;
+}
+
+
+SecurityEmployee::SecurityEmployee():Employee(){
+  name="Mpampis O Securitas";
+  cout<<"<SecurityEmployee> Constructor called"<<endl;
+}
+
+void SecurityEmployee::workOn(string part){
+  cout<<"Employee " << name<<"worked on "<<part<<endl;
+}
+
+MaintenanceEmployee::MaintenanceEmployee():Employee(){
+  name="Giorgos O Sintiritis";
+  cout<<"<MaintenanceEmployee> Constructor called"<<endl;
+}
+
+void MaintenanceEmployee::workOn(string part){
+  cout<<"Employee"<<name<<"worked on"<<part<<endl;
+}
+
+CleaningEmployee::CleaningEmployee():Employee(){
+  name="Lefteris O Katharistis";
+  cout<<"<CleaningEmployee> Constructor called"<<endl;
 }
